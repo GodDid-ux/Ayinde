@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TACHS ONLINE STORE</title>
+    <style>
+        #tracking-form {
+    width: 300px;
+    margin: 20px auto;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+#tracking-form label,
+#tracking-form input {
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+#tracking-form button {
+    padding: 8px;
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+}
+
+#tracking-form button:hover {
+    background-color: #0056b3;
+}
+
+#tracking-result {
+    margin-top: 20px;
+    text-align: center;
+}
+
+    </style>
+</head>
+<body>
+    <form id="tracking-form" method="POST" action="track_order.php">
+        <label for="tracking_code">Enter your tracking code:</label>
+        <input type="text" id="tracking_code" name="tracking_code" required>
+        <button type="submit">Track Order</button>
+    </form>
+    
+    <div id="tracking-result"></div>
+    
+</body>
+</html>

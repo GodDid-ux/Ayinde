@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+  <link rel="stylesheet" href="css/rateus.css">
+  <link rel="shortcut icon" href="Tachs.png" type="image/x-icon">
+ 
+</head>
+<body>
+  <div class="container">
+    <div class="post">
+      <div class="text">Thanks for rating us!</div>
+      <div class="edit">Edit</div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="star-widget">
+        <input type="radio" name="rate" id="rate-5">
+        <label for="rate-5" class="fas fa-star"></label>
+        <input type="radio" name="rate" id="rate-4">
+        <label for="rate-4" class="fas fa-star"></label>
+        <input type="radio" name="rate" id="rate-3">
+        <label for="rate-3" class="fas fa-star"></label>
+        <input type="radio" name="rate" id="rate-2">
+        <label for="rate-2" class="fas fa-star"></label>
+        <input type="radio" name="rate" id="rate-1">
+        <label for="rate-1" class="fas fa-star"></label>
+        <!-- Hidden input to capture the rating value -->
+        <input type="hidden" name="rating" id="rating-value">
+        <form action="submit_rating.php" method="post">
+          <header></header>
+          <div class="textarea">
+            <textarea cols="30" name="comment" placeholder="Describe your Experience?"></textarea>
+          </div>
+          <div class="btn">
+            <button type="submit">Post</button>
+          </div>
+        </form>
+    </div>
+</div>
+</body>
+<script>
+// const btn = document.querySelector('button');
+// const post = document.querySelector('.post');
+// const widget = document.querySelector('.star-widget');
+// const editBtn = document.querySelector('.edit');
+
+// btn.onclick = () => {
+//     widget.style.display = "none";
+//     post.style.display = "block";
+
+    // Redirect to index.html after the rating is completed
+    // window.location.href = "index.html";
+    // alert("Thanks for Rating us!.We hope to serve you much better...")
+    
+//     return false;
+// }
+
+// editBtn.onclick = () => {
+//     widget.style.display = "block";
+//     post.style.display = "none";
+//     return false;
+// }
+// </script>
+<script>
+  // for ratings
+  document.addEventListener("DOMContentLoaded", function () {
+    const stars = document.querySelectorAll('input[name="rate"]');
+    const ratingValue = document.getElementById('rating-value');
+    const form = document.querySelector('form');
+    const btn = document.querySelector('button');
+    const post = document.querySelector('.post');
+    const widget = document.querySelector('.star-widget');
+    const editBtn = document.querySelector('.edit');
+
+    // Capture the rating value when a star is selected
+    stars.forEach(star => {
+        star.addEventListener('change', function () {
+            ratingValue.value = this.id.split('-')[1]; // Set the rating value
+        });
+    });
+
+    // Handle form submission with fetch
+    form.addEventListener('submit', function (e) {
+        e.preventDefault(); // Prevent default form submission
+
+        const rating = ratingValue.value;
+        const comment = form.querySelector('textarea[name="comment"]').value;
+
+        // Check if a rating has been selected
+        if (!rating) {
+            alert("Please select a rating before submitting.");
+            return;
+        }
+
+        // Send data to PHP script using fetch
+        fetch('submit_rating.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: `rating=${encodeURIComponent(rating)}&comment=${encodeURIComponent(comment)}`,
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert(data.message); // Show success message
+                window.location.href = "index.php"; // Redirect to index.html
+            } else {
+                alert(data.message); // Show error message
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert("An error occurred while submitting your rating.");
+        });
+    });
+
+    // Edit button to go back to rating
+    editBtn.onclick = () => {
+        widget.style.display = "block";
+        post.style.display = "none";
+        return false;
+    };
+});
+</script>
+<script src="js/php.js"></script>
+</html>

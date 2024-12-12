@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="Tachs.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <title>TACHS ONLINE STORE</title>
+    <style>
+      body {
+          font-family: Arial, sans-serif;
+          background-color: #673ab7;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 100vh;
+          background-image: linear-gradient(rgba(0, 0, 50, 0.8), rgba(0, 0, 50, 0.8)), url('Tachs.png');
+          background-size: cover;
+          background-repeat: no-repeat;
+          background-position: center;
+          margin: 0;
+      }
+
+      .container {
+          width: 300px;
+          padding: 20px;
+          background-color: #fdcc0d;
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+          position: relative;
+      }
+
+      .back-button {
+          position: absolute;
+          top: 10px;
+          left: 10px;
+          font-size: 25px;
+          color: black;
+          cursor: pointer;
+          border: none;
+          background: snow;
+          font-weight: 500;
+          padding: 3px;
+          margin-left: 20px;
+          margin-top: 10px;
+          width: 35px;
+      }
+      .back-button:hover{
+        background-color:  #6200ea;
+        transition: .4s ease-in-out;
+      }
+
+      .form-group {
+          margin-bottom: 15px;
+      }
+
+      .form-group label {
+          display: block;
+          margin-bottom: 5px;
+      }
+
+      .form-group input {
+          width: 100%;
+          padding: 8px;
+          box-sizing: border-box;
+      }
+
+      .error {
+          color: red;
+          font-size: 0.9em;
+          display: none;
+      }
+
+      .toggle-link {
+          text-align: center;
+          margin-top: 10px;
+          cursor: pointer;
+          color: #6200ea;
+      }
+
+      .toggle-link:hover {
+          text-decoration: underline;
+      }
+    .eye-icon {
+    position: absolute;
+    right: 30px;
+    padding-top: 10px; /* Adjust as needed */
+    cursor: pointer;
+    color: #888; /* Adjust color as needed */
+    }
+
+    .eye-icon:hover {
+    color: #333; /* Adjust color on hover */
+    }
+  </style>
+</head>
+<body>
+  <!-- Back Button -->
+  <a href="index.php"><button class="back-button" onclick="goBack()">←</button></a>
+  <div style="align-items: center;" class="container">
+    <img style="width: 100px;margin-left: 100px;" src="Tachs.png" alt="">
+    <h2 style="text-align: center;font-family: 'Times New Roman', Times, serif;">Welcome To Tachs!</h2>
+    <p style="text-align: center;">Log into your Tachs Account</p>
+      <!-- Sign Up Form -->
+      <form id="signupForm" style="display: none;" action="signup.php" method="post" onsubmit="return validateSignUpForm()">
+        <h2>Sign Up</h2>
+        <div class="form-group">
+            <label for="signupUsername">Username:</label>
+            <input type="text" id="signupUsername" name="signupUsername" required>
+            <div class="error" id="signupUsernameError">Please enter your username.</div>
+        </div>
+        <div class="form-group">
+            <label for="signupName">Name:</label>
+            <input type="text" id="signupName" name="signupName" required>
+            <div class="error" id="signupNameError">Please enter your name.</div>
+        </div>
+        <div class="form-group">
+            <label for="signupEmail">Email:</label>
+            <input type="email" id="signupEmail" name="signupEmail" required>
+            <div class="error" id="signupEmailError">Please enter a valid email.</div>
+        </div>
+        <div class="form-group">
+            <label for="signupPassword">Password:</label>
+            <input type="password" id="signupPassword" name="signupPassword" required>
+            <div class="error" id="signupPasswordError">Password must be at least 6 characters long.</div>
+        </div>
+        <button type="submit">Sign Up</button>
+        <div class="toggle-link" onclick="toggleForms()">Already have an account? Sign In</div>
+    </form>
+    
+    <!-- Sign In Form -->
+    <form id="signinForm" action="signin.php" method="POST" onsubmit="return validateSignInForm()">
+        <h2>Sign In</h2>
+        <div class="form-group">
+            <label for="signinUsername">Username:</label>
+            <input type="text" id="signinUsername" name="signinUsername" required>
+            <div class="error" id="signinUsernameError">Please enter your username.</div>
+        </div>
+        <div class="form-group">
+            <label for="signinPassword">Password:</label>
+            <input type="password" id="signinPassword" name="signinPassword" required>
+            <i id="togglePassword" class="eye-icon fas fa-eye"></i>
+            <div class="error" id="signinPasswordError">Please enter your password.</div>
+        </div>
+        <button type="submit">Sign In</button>
+        <div class="form-links">
+            <div class="toggle-link" onclick="toggleForms()">Don't have an account? Sign Up</div>
+            <a href="forgot_password.php" class="forgot-password-link">Forgot your password?</a>
+        </div>
+        <p style="font-family: 'Times New Roman', Times, serif;font-size: 15px;">For further support,you may visit the Help center or contact our customer service team</p>
+    </form>
+    <script>
+          // JavaScript function to toggle between sign-in and sign-up forms
+          function toggleForms() {
+        var signUpForm = document.getElementById("signupForm");
+        var signInForm = document.getElementById("signinForm");
+    
+        if (signUpForm.style.display === "none") {
+            signUpForm.style.display = "block";
+            signInForm.style.display = "none";
+        } else {
+            signUpForm.style.display = "none";
+            signInForm.style.display = "block";
+        }
+    }
+    </script>
+    <script>
+        // Function to validate the sign-up form
+    function validateSignUpForm() {
+        var isValid = true;
+    
+        // Validate username
+        var username = document.getElementById("signupUsername").value;
+        if (username === "") {
+            document.getElementById("signupUsernameError").style.display = "block";
+            isValid = false;
+        } else {
+            document.getElementById("signupUsernameError").style.display = "none";
+        }
+    
+        // Validate name
+        var name = document.getElementById("signupName").value;
+        if (name === "") {
+            document.getElementById("signupNameError").style.display = "block";
+            isValid = false;
+        } else {
+            document.getElementById("signupNameError").style.display = "none";
+        }
+    
+        // Validate email
+        var email = document.getElementById("signupEmail").value;
+        if (email === "" || !validateEmail(email)) {
+            document.getElementById("signupEmailError").style.display = "block";
+            isValid = false;
+        } else {
+            document.getElementById("signupEmailError").style.display = "none";
+        }
+    
+        // Validate password
+        var password = document.getElementById("signupPassword").value;
+        if (password.length < 6) {
+            document.getElementById("signupPasswordError").style.display = "block";
+            isValid = false;
+        } else {
+            document.getElementById("signupPasswordError").style.display = "none";
+        }
+    
+        return isValid; // Return false to prevent form submission if any validation fails
+    }
+    
+    // Function to validate the sign-in form
+    function validateSignInForm() {
+        var isValid = true;
+    
+        // Validate username
+        var username = document.getElementById("signinUsername").value;
+        if (username === "") {
+            document.getElementById("signinUsernameError").style.display = "block";
+            isValid = false;
+        } else {
+            document.getElementById("signinUsernameError").style.display = "none";
+        }
+    
+        // Validate password
+        var password = document.getElementById("signinPassword").value;
+        var storedPassword = "correct_password"; // Replace with actual password checking logic
+    
+        if (password === "") {
+            document.getElementById("signinPasswordError").style.display = "block";
+            isValid = false;
+        } else if (password !== storedPassword) {
+            alert("Wrong password entered");
+            isValid = false;
+        } else {
+            document.getElementById("signinPasswordError").style.display = "none";
+        }
+    
+        return isValid; // Return false to prevent form submission if any validation fails
+    }
+    // Initialize the form display on page load
+window.onload = function() {
+    document.getElementById("signinForm").style.display = "block";
+    document.getElementById("signupForm").style.display = "none";
+};
+
+// Password visibility toggle
+document.addEventListener('DOMContentLoaded', function() {
+    const togglePassword = document.getElementById('togglePassword');
+    const passwordField = document.getElementById('signinPassword');
+
+    togglePassword.addEventListener('click', function () {
+        // Toggle the password field type between 'password' and 'text'
+        const type = passwordField.type === 'password' ? 'text' : 'password';
+        passwordField.type = type;
+
+        // Toggle eye icon between "fa-eye" and "fa-eye-slash"
+        this.classList.toggle('fa-eye');
+        this.classList.toggle('fa-eye-slash');
+    });
+});
+    </script>
+    <script src="js/php.js"></script>
+</body>
+</html>
